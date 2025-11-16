@@ -9,7 +9,10 @@ export const NOTE_INDEXES: Record<string, number> = {
     'A': 9, 'A#': 10, 'Bb': 10,
     'B': 11, 'Cb': 11,
   };
-  
+
+export const LETTER_POSITION: Record<string, number> = {
+    'C': 1, 'D': 2, 'E': 3, 'F': 4, 'G': 5, 'A': 6, 'B': 7
+};
 export const INDEX_TO_NOTE: Record<number, string> = {
     0: 'C', 1: 'C#', 2: 'D', 3: 'D#', 4: 'E',
     5: 'F', 6: 'F#', 7: 'G', 8: 'G#', 9: 'A',
@@ -43,21 +46,23 @@ export const DEGREE_TO_SEMITONES: Record<string, number> = {
   };
 
 const SEMITONES_TO_DEGREE: Record<number, string[]> = {
-  0: ['R'],
-  1: ['b9'],
-  2: ['9'],
-  3: ['b3', '#9'],
-  4: ['3'],
-  5: ['11'],
-  6: ['#11', 'b5'],
-  7: ['5'],
-  8: ['#5', 'b13'],
-  9: ['13', 'bb7'],
-  10: ['b7'],
-  11: ['7'],
+  0: ['R', '1', 'bb2', '#7'],
+  1: ['b9', '#1', 'b2'],
+  2: ['9', '##1','2', 'bb3'],
+  3: ['#9', '#2', 'b3'],
+  4: ['3', '##2', 'b4'],
+  5: ['11', '#3', '4', 'bb5' ],
+  6: ['#11', '#4', 'b5', '##3'],
+  7: ['5', '##4', 'bb6'],
+  8: ['b13', '#5', 'b6'],
+  9: ['13', '##5', '6', 'bb7'],
+  10: ['b7', '#6', 'bb1'],
+  11: ['7', '#1', '##6'],
 };
 const SHARP_KEYS = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#'];
 const FLAT_KEYS = ['C', 'F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb'];
+
+
 
 export function getKeyFromSignature(sig: string): string | null {
   // const SHARP_ORDER = ['F', 'C', 'G', 'D', 'A', 'E', 'B'];
@@ -134,8 +139,18 @@ export function getNoteName(index: number): string {
 //   const noteIndexFromDegree = scale[degreeIndex];
 //   return getNoteName(noteIndexFromDegree);
 // }
+function getLetterBasedIntervalNumber(note: string, key: string): string {
+  const keyLetterPosition = Number(LETTER_POSITION[key[0]]);
+  const noteLetterPosition = Number(LETTER_POSITION[note[0]]);
+
+  const letterBasedIntervalNumber = String((noteLetterPosition - keyLetterPosition + 7) % 7 + 1);
+
+  return letterBasedIntervalNumber;
+
+}
 
 export function getScaleDegree(note: string, key: string): string | null {
+  const letterBasedIntervalNumber = getLetterBasedIntervalNumber(note, key);
   const noteIndex = getNoteIndex(note);
   const keyIndex = getNoteIndex(key);
 
@@ -144,7 +159,13 @@ export function getScaleDegree(note: string, key: string): string | null {
   }
 
   const distance = (noteIndex - keyIndex + 12) % 12;
-  return SEMITONES_TO_DEGREE[distance]?.[0] ?? null; // return the first degree name or null if not found
+  const degreeOptions = SEMITONES_TO_DEGREE[distance]; 
+  
+  const matchingDegree = degreeOptions.find(degree => 
+    // degree.match(new RegExp(`\\b${letterBasedIntervalNumber}\\b`))
+    degree.includes(letterBasedIntervalNumber)
+  );
+  return matchingDegree ?? null; // return the first degree name or null if not found
 }
 
 export function getNotefromDegree(degree: string, key: string): string | null {

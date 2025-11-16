@@ -8,7 +8,7 @@ interface ModeSelectProps {
 };
 
 export function ModeSelect({value, onChange}: ModeSelectProps) {
-    const items = Object.values(quizModes).map((mode) => ({
+    const availableModes = Object.values(quizModes).map((mode) => ({
         label: mode.label,
         value: mode.id,
     }));
@@ -16,7 +16,7 @@ export function ModeSelect({value, onChange}: ModeSelectProps) {
         <SegmentedControl
           value={value}
           onChange={(val: string) => onChange(val as Mode)}
-          data={items}
+          data={availableModes}
           fullWidth
           size="md"
         />
