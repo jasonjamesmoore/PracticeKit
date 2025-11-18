@@ -54,8 +54,21 @@ function Quiz({ modeConfig }: QuizProps) {
       });
 
       setPrompts(newPrompts);
+      setRevealed(false);
     }
   }
+
+  function computeAnswer() {
+    if (!modeConfig.computeAnswer || !modeConfig.promptDecks) return null;
+
+    const relevantPrompts = modeConfig.promptDecks.reduce((acc, deck) => {
+        acc[deck] = prompts[deck];
+        return acc;
+    }, {} as Record<Deck, string | null>);
+
+    return modeConfig.computeAnswer(relevantPrompts as Record<Deck, string>);
+}
+  
 
   return (
     <Container size="sm" py="xl">

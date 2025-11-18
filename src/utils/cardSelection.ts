@@ -21,11 +21,11 @@ export function getRandomCard(deckType: Deck, options: { priority?: string }): s
   }
 }
 
-export function getRandomKey(): KeyCard {
+function getRandomKey(): KeyCard {
   return keyCards[Math.floor(Math.random() * keyCards.length)];
 }
 
-export function getRandomNote(): NoteCard {
+function getRandomNote(): NoteCard {
   return noteCards[Math.floor(Math.random() * noteCards.length)];
 }
 
