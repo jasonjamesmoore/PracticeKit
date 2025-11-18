@@ -1,48 +1,73 @@
-import {QuizMode} from '../types/Quiz';
-import {Mode} from '../types/Mode';
-import {getKeyFromNoteAndDegree, getNotefromDegree, getScaleDegree, getSignatureFromKey, getKeyFromSignature} from '../theory/noteUtils';
-
+import {
+  getKeyFromNoteAndDegree,
+  getKeyFromSignature,
+  getNotefromDegree,
+  getScaleDegree,
+  getSignatureFromKey,
+} from '../theory/noteUtils';
+import { Mode } from '../types/Mode';
+import { QuizMode } from '../types/Quiz';
 
 export const quizModes: Record<Mode, QuizMode> = {
-    [Mode.DEGREE_FINDER]: {
-        id: Mode.DEGREE_FINDER,
-        label: 'Find the scale degree',
-        description: 'Given a key and a note, find the scale degree.',
-        promptDecks: ['key', 'note'],
-        answerDeck: 'degree',
-        computeAnswer: ({key, note}) => getScaleDegree(note, key),
+  [Mode.DEGREE_FINDER]: {
+    id: Mode.DEGREE_FINDER,
+    label: 'Find the scale degree',
+    description: 'Given a key and a note, find the scale degree.',
+    promptDecks: ['key', 'note'],
+    answerDeck: 'degree',
+    computeAnswer: ({ key, note }) => getScaleDegree(note, key),
+    supportedFilters: {
+      priority: true, // can filter by harmonic/scale/all
+      difficulty: true,
+      locking: true, // can lock prompts
     },
-    [Mode.NOTE_FINDER]: {
-        id: Mode.NOTE_FINDER,
-        label: 'Find the note',
-        description: 'Given a key and a note, find the scale degree.',
-        promptDecks: ['key', 'degree'],
-        answerDeck: 'note',
-        computeAnswer: ({key, degree}) => getNotefromDegree(degree, key),
-    }, 
-    [Mode.KEY_FINDER]: {
-        id: Mode.KEY_FINDER,
-        label: 'Find the key',
-        description: 'Given a note and a scale degree, find the key.',
-        promptDecks: ['note', 'degree'],
+  },
+  [Mode.NOTE_FINDER]: {
+    id: Mode.NOTE_FINDER,
+    label: 'Find the note',
+    description: 'Given a key and a scale degree, find the note.',
+    promptDecks: ['key', 'degree'],
+    answerDeck: 'note',
+    computeAnswer: ({ key, degree }) => getNotefromDegree(degree, key),
+    supportedFilters: {
+      priority: true, // can filter by harmonic/scale/all
+      difficulty: true,
+      locking: true, // can lock prompts
+    },
+  },
+  [Mode.KEY_FINDER]: {
+    id: Mode.KEY_FINDER,
+    label: 'Find the key',
+    description: 'Given a note and a scale degree, find the key.',
+    promptDecks: ['note', 'degree'],
+    answerDeck: 'key',
+    computeAnswer: ({ note, degree }) => getKeyFromNoteAndDegree(note, degree),
+    supportedFilters: {
+      priority: false, // can filter by harmonic/scale/all
+      difficulty: true,
+      locking: true, // can lock prompts
+    },
+  },
+  [Mode.KEY_ONLY]: {
+    id: Mode.KEY_ONLY,
+    label: 'Key ↔︎ Signature',
+    description: 'What is the key or Key signature?',
+    supportedFilters: {
+      priority: false, // can filter by harmonic/scale/all
+      difficulty: true,
+      locking: false, // can lock prompts
+    },
+    variants: [
+      {
+        promptDecks: ['key'],
+        answerDeck: 'signature',
+        computeAnswer: ({ key }) => getSignatureFromKey(key),
+      },
+      {
+        promptDecks: ['signature'],
         answerDeck: 'key',
-        computeAnswer: ({note, degree}) => getKeyFromNoteAndDegree(note, degree),
-    },
-    [Mode.KEY_ONLY]: {
-        id: Mode.KEY_ONLY,
-        label: 'Key ↔︎ Signature',
-        description: 'What is the key or Key signature?',
-        variants: [
-            {
-              promptDecks: ['key'],
-              answerDeck: 'signature',
-              computeAnswer: ({ key }) => getSignatureFromKey(key),
-            },
-            {
-              promptDecks: ['signature'],
-              answerDeck: 'key',
-              computeAnswer: ({ signature }) => getKeyFromSignature(signature),
-            },
-          ],
-    }
-}
+        computeAnswer: ({ signature }) => getKeyFromSignature(signature),
+      },
+    ],
+  },
+};

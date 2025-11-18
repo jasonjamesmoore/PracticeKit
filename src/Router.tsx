@@ -12,7 +12,7 @@ const router = createBrowserRouter([
       {
         path: "/settings",
         element: <Settings />,
-         // Optional: You can add subroutes for specific modes
+         // Can add subroutes for specific modes
         // children: [
         //   { path: 'note-to-degree', element: <NoteToDegree /> },
         //   { path: 'degree-to-note', element: <DegreeToNote /> },

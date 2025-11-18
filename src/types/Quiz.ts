@@ -18,4 +18,9 @@ export type QuizMode = {
   answerDeck?: AnswerDeck;
   computeAnswer?: (prompts: Record<Deck, string>) => string | null;
   variants?: QuizVariant[];
+  supportedFilters?: {
+    priority?: boolean;  // can filter by harmonic/scale/all
+    difficulty?: boolean;
+    locking?: boolean;   // can lock prompts
+  };
 };
