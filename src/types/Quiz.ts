@@ -7,7 +7,7 @@ export type AnswerDeck = 'key' | 'note' | 'degree' | 'signature';
 export type QuizVariant = {
     promptDecks: PromptDeckPair;
     answerDeck: AnswerDeck;
-    computeAnswer: (prompts: Record<Deck, string>) => string | null;
+    computeAnswer: (prompts: Record<Deck, string>, priority?: string) => string | null;
 }
 
 export type QuizMode = {
@@ -16,7 +16,7 @@ export type QuizMode = {
   description: string;
   promptDecks?: PromptDeckPair;
   answerDeck?: AnswerDeck;
-  computeAnswer?: (prompts: Record<Deck, string>) => string | null;
+  computeAnswer?: (prompts: Record<Deck, string>, priority?: string) => string | null;
   variants?: QuizVariant[];
   supportedFilters?: {
     priority?: boolean;  // can filter by harmonic/scale/all

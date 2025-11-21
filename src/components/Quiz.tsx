@@ -1,33 +1,15 @@
-// Current card values
-// currentKey, currentNote, currentDegree, currentSignature
-
-// UI state
-// revealed: boolean
-// lockedPrompt: 'key' | 'note' | 'degree' | 'signature' | null
-// priorityMode: 'harmonic' | 'scale' | 'all'
-// difficulty: 'easy' | 'medium' | 'hard'
-
-// Key Functions:
-
-// initializeCards() - Set random prompts based on mode
-// regenerateCard(promptType) - Regen only unlocked prompts
-// toggleLock(promptType) - Only one can be locked
-// applyFilters(cards, priority, difficulty) - Filter card deck before random selection
-// computeAnswer() - Use the mode's computeAnswer function
 import { useEffect, useState } from 'react';
-import { Container } from '@mantine/core';
+import { Container, SegmentedControl, Stack } from '@mantine/core';
+import { FlashCard } from './FlashCard';
 import { Deck, QuizMode } from '@/types/Quiz';
-import { getRandomCard } from '@/utils/cardSelection';
+import { getRandomCard } from '@/utils/cardSelection'; 
 
 interface QuizProps {
   modeConfig: QuizMode;
 }
 
-function Quiz({ modeConfig }: QuizProps) {
-  //   const [currentKey, setCurrentKey] = useState<string | null>(null);
-  //   const [currentNote, setCurrentNote] = useState<string | null>(null);
-  //   const [currentDegree, setCurrentDegree] = useState<string | null>(null);
-  //   const [currentSignature, setCurrentSignature] = useState<string | null>(null);
+export function Quiz({ modeConfig }: QuizProps) {
+
 
   const [prompts, setPrompts] = useState<Record<Deck, string | null>>({
     key: null,
@@ -38,41 +20,123 @@ function Quiz({ modeConfig }: QuizProps) {
 
   const [revealed, setRevealed] = useState<boolean>(false);
   const [lockedPrompt, setLockedPrompt] = useState<Deck | null>(null);
-  const [priorityMode, setPriorityMode] = useState<'harmonic' | 'scale' | 'all'>('harmonic');
+  const [priorityMode, setPriorityMode] = useState<'harmonic' | 'scale'>('harmonic');
 
   useEffect(() => {
     initializeCards();
-  }, [modeConfig]);
+  }, [modeConfig, priorityMode]);
 
   function initializeCards() {
-    if (modeConfig.promptDecks) {
-      const newPrompts: Record<Deck, string | null> = { ...prompts };
+    regeneratePrompts(false);
+  }
 
-      modeConfig.promptDecks.forEach((deckType) => {
-        const card = getRandomCard(deckType, { priority: priorityMode });
-        newPrompts[deckType] = card;
-      });
-
-      setPrompts(newPrompts);
-      setRevealed(false);
-    }
+  function handleNext() {
+    regeneratePrompts(true);
   }
 
   function computeAnswer() {
-    if (!modeConfig.computeAnswer || !modeConfig.promptDecks) return null;
+    if (!modeConfig.computeAnswer || !modeConfig.promptDecks) {
+      return null;
+    }
 
-    const relevantPrompts = modeConfig.promptDecks.reduce((acc, deck) => {
+    const relevantPrompts = modeConfig.promptDecks.reduce(
+      (acc, deck) => {
         acc[deck] = prompts[deck];
         return acc;
-    }, {} as Record<Deck, string | null>);
+      },
+      {} as Record<Deck, string | null>
+    );
 
-    return modeConfig.computeAnswer(relevantPrompts as Record<Deck, string>);
-}
+    return modeConfig.computeAnswer(relevantPrompts as Record<Deck, string>, priorityMode);
+  }
+
+  function toggleLock(deck: Deck) {
+    setLockedPrompt(lockedPrompt === deck ? null : deck);
+  }
+
+function regeneratePrompts(respectLock: boolean = false) {
+  if (!modeConfig.promptDecks) {
+    return;
+  }
   
+  let attempts = 0;
+  const maxAttempts = 50;
+  let newPrompts: Record<Deck, string | null> = { ...prompts };
+  
+  while (attempts < maxAttempts) {
+    newPrompts = { ...prompts };
+
+    modeConfig.promptDecks.forEach((deckType) => {
+      if (!respectLock || lockedPrompt !== deckType) {
+        const card = getRandomCard(deckType, { priority: priorityMode });
+        newPrompts[deckType] = card;
+      }
+    });
+
+    // Test if this combo produces a valid answer
+    const testAnswer = modeConfig.computeAnswer?.(
+      modeConfig.promptDecks.reduce((acc, deck) => {
+        acc[deck] = newPrompts[deck];
+        return acc;
+      }, {} as Record<Deck, string | null>) as Record<Deck, string>,
+      priorityMode
+    );
+    
+    if (testAnswer !== null) {
+      // Valid answer found, use these prompts
+      setPrompts(newPrompts);
+      setRevealed(false);
+      return;
+    }
+    
+    attempts++;
+  }
+  
+  console.warn('Could not generate valid card combo after', maxAttempts, 'attempts');
+  // Fallback: set prompts anyway (shouldn't happen often)
+  setPrompts(newPrompts);
+  setRevealed(false);
+}
 
   return (
     <Container size="sm" py="xl">
-      {/* Quiz UI goes here */}
+      <Stack gap="md">
+      {/* Priority selector - only show if mode supports it */}
+      {modeConfig.supportedFilters?.priority && (
+        <SegmentedControl
+          value={priorityMode}
+          onChange={(value) => setPriorityMode(value as 'harmonic' | 'scale')}
+          data={[
+            { label: 'Harmonic', value: 'harmonic' },
+            { label: 'Scale', value: 'scale' },
+            // { label: 'All', value: 'all' },
+          ]}
+        />
+      )}
+
+      {/* FlashCard component */}
+      {modeConfig.promptDecks?.every(deck => prompts[deck] !== null) && (
+      <FlashCard
+        title={modeConfig.label}
+        prompts={modeConfig.promptDecks?.map((deck) => ({
+          label: deck.charAt(0).toUpperCase() + deck.slice(1), // "key" → "Key"
+          value: prompts[deck] || '',
+          deckType: deck,
+          isLocked: lockedPrompt === deck,
+          onToggleLock: modeConfig.supportedFilters?.locking 
+            ? () => toggleLock(deck) 
+            : undefined,
+        })) || []}
+        answer={{
+          value: computeAnswer() || '',
+          deckType: modeConfig.answerDeck || 'degree',
+        }}
+        isRevealed={revealed}
+        onReveal={() => setRevealed(true)}
+        onNext={handleNext}
+      />
+      )}
+    </Stack>
     </Container>
   );
 }

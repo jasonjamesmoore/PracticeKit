@@ -5,6 +5,7 @@ import {
   getScaleDegree,
   getSignatureFromKey,
 } from '../theory/noteUtils';
+import { degreeCards } from './degrees';
 import { Mode } from '../types/Mode';
 import { QuizMode } from '../types/Quiz';
 
@@ -15,7 +16,23 @@ export const quizModes: Record<Mode, QuizMode> = {
     description: 'Given a key and a note, find the scale degree.',
     promptDecks: ['key', 'note'],
     answerDeck: 'degree',
-    computeAnswer: ({ key, note }) => getScaleDegree(note, key),
+    computeAnswer: ({ key, note }, priority) => {
+      // Build allowed degrees based on priority
+      let allowedDegrees: string[] | undefined;
+      
+      if (priority === 'harmonic') {
+        allowedDegrees = degreeCards
+          .filter(d => d.category === 'harmonicExtension' || d.category === 'coreHarmony')
+          .map(d => d.degreeName);
+      } else if (priority === 'scale') {
+        allowedDegrees = degreeCards
+          .filter(d => d.category === 'scaleDegree' || d.category === 'coreHarmony')
+          .map(d => d.degreeName);
+      }
+      // 'all' = undefined, no filtering
+      
+      return getScaleDegree(note, key, allowedDegrees);
+    },
     supportedFilters: {
       priority: true, // can filter by harmonic/scale/all
       difficulty: true,

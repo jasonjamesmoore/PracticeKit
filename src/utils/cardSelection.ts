@@ -37,9 +37,9 @@ function getRandomDegreeByPriority(priority?: string): DegreeCard {
   let filtered = degreeCards;
 
   if (priority === 'scale') {
-    filtered = degreeCards.filter((degree) => degree.category === 'basic');
+    filtered = degreeCards.filter((degree) => degree.category === 'scaleDegree' || degree.category === 'coreHarmony');
   } else if (priority === 'harmonic') {
-    filtered = degreeCards.filter((degree) => degree.category === 'extended');
+    filtered = degreeCards.filter((degree) => degree.category === 'harmonicExtension' || degree.category === 'coreHarmony');
   }
   return filtered[Math.floor(Math.random() * filtered.length)];
 }
