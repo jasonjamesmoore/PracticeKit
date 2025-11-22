@@ -55,6 +55,7 @@ export function Quiz({ modeConfig }: QuizProps) {
   }
 
 function regeneratePrompts(respectLock: boolean = false) {
+    console.log('regeneratePrompts called, respectLock:', respectLock);
   if (!modeConfig.promptDecks) {
     return;
   }
@@ -83,6 +84,7 @@ function regeneratePrompts(respectLock: boolean = false) {
     );
     
     if (testAnswer !== null) {
+        console.log('Valid combo found after', attempts, 'attempts');
       // Valid answer found, use these prompts
       setPrompts(newPrompts);
       setRevealed(false);

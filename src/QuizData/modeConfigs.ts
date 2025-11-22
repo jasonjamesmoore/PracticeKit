@@ -5,9 +5,10 @@ import {
   getScaleDegree,
   getSignatureFromKey,
 } from '../theory/noteUtils';
-import { degreeCards } from './degrees';
 import { Mode } from '../types/Mode';
 import { QuizMode } from '../types/Quiz';
+import { degreeCards } from './degrees';
+import { keyCards } from './key';
 
 export const quizModes: Record<Mode, QuizMode> = {
   [Mode.DEGREE_FINDER]: {
@@ -19,18 +20,18 @@ export const quizModes: Record<Mode, QuizMode> = {
     computeAnswer: ({ key, note }, priority) => {
       // Build allowed degrees based on priority
       let allowedDegrees: string[] | undefined;
-      
+
       if (priority === 'harmonic') {
         allowedDegrees = degreeCards
-          .filter(d => d.category === 'harmonicExtension' || d.category === 'coreHarmony')
-          .map(d => d.degreeName);
+          .filter((d) => d.category === 'harmonicExtension' || d.category === 'coreHarmony')
+          .map((d) => d.degreeName);
       } else if (priority === 'scale') {
         allowedDegrees = degreeCards
-          .filter(d => d.category === 'scaleDegree' || d.category === 'coreHarmony')
-          .map(d => d.degreeName);
+          .filter((d) => d.category === 'scaleDegree' || d.category === 'coreHarmony')
+          .map((d) => d.degreeName);
       }
       // 'all' = undefined, no filtering
-      
+
       return getScaleDegree(note, key, allowedDegrees);
     },
     supportedFilters: {
@@ -58,7 +59,18 @@ export const quizModes: Record<Mode, QuizMode> = {
     description: 'Given a note and a scale degree, find the key.',
     promptDecks: ['note', 'degree'],
     answerDeck: 'key',
-    computeAnswer: ({ note, degree }) => getKeyFromNoteAndDegree(note, degree),
+    computeAnswer: ({ note, degree }) => {
+      const allowedKeys = keyCards.map((key) => key.keyName);
+      const computedKey = getKeyFromNoteAndDegree(note, degree, allowedKeys);
+
+      if (computedKey) {
+        const verifyNote = getNotefromDegree(degree, computedKey);
+        if (verifyNote !== note) {
+          return null;
+        }
+      }
+      return computedKey;
+    },
     supportedFilters: {
       priority: false, // can filter by harmonic/scale/all
       difficulty: true,

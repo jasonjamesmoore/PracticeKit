@@ -260,8 +260,8 @@ export function getNotefromDegree(degree: string, key: string): string | null {
     return null; // invalid input
   }
 
-  const targetLetter = ((keyLetterPosition + degreeNumber - 2) % 7) + 1;
-  const targetLetterName = POSITION_TO_LETTER[targetLetter];
+  const targetLetterPosition = ((keyLetterPosition + degreeNumber - 2) % 7) + 1;
+  const targetLetterName = POSITION_TO_LETTER[targetLetterPosition];
   const noteIndexFromDegree = (keyIndex + degreeToSemitones) % 12;
   const enharmonicOptions = INDEX_TO_NOTE[noteIndexFromDegree];
   const matchingNote = enharmonicOptions.find((note) => {
@@ -272,12 +272,36 @@ export function getNotefromDegree(degree: string, key: string): string | null {
   return matchingNote ?? enharmonicOptions[0];
 }
 
-export function getKeyFromNoteAndDegree(note: string, degree: string): string | null {
+export function getKeyFromNoteAndDegree(
+  note: string,
+  degree: string,
+  allowedKeys?: string[]
+): string | null {
   const noteIndex = getNoteIndex(note);
+  const noteLetterPosition = Number(LETTER_POSITION[note[0]]);
+  const degreeNumber = DEGREE_TO_INTERVAL_NUMBER[degree];
   const degreeToSemitones = DEGREE_TO_SEMITONES[degree];
-  if (degreeToSemitones === undefined) {
+  
+  if (noteIndex === undefined || degreeToSemitones === undefined || !noteLetterPosition || !degreeNumber) {
     return null; // invalid input
   }
+
+  const targetKeyLetterPosition = ((noteLetterPosition - degreeNumber + 7) % 7) + 1;
+  const targetKeyLetter = POSITION_TO_LETTER[targetKeyLetterPosition];
   const keyIndex = (noteIndex - degreeToSemitones + 12) % 12;
-  return getNoteName(keyIndex);
+  const enharmonicKeyPool = INDEX_TO_NOTE[keyIndex];
+  
+  if (!enharmonicKeyPool) {
+    return null; // Invalid keyIndex
+  }
+
+  const filteredOptions = allowedKeys
+    ? enharmonicKeyPool.filter((key) => allowedKeys.includes(key))
+    : enharmonicKeyPool;
+
+  const matchingKey = filteredOptions.find((key) => {
+    const firstLetter = key[0];
+    return firstLetter === targetKeyLetter;
+  });
+  return matchingKey ?? filteredOptions[0] ?? null;
 }
