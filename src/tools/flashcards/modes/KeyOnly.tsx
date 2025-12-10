@@ -33,7 +33,7 @@ export function KeyOnly() {
   }
   
   function toggleVariant() {
-    const baseConfig = quizModes[Mode.KEY_ONLY];
+    const baseConfig = quizModes[FlashcardMode.KEY_ONLY];
     if (!baseConfig.variants) {
       return;
     }
