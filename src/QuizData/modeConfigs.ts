@@ -13,7 +13,7 @@ import { keyCards } from './key';
 export const quizModes: Record<Mode, QuizMode> = {
   [Mode.DEGREE_FINDER]: {
     id: Mode.DEGREE_FINDER,
-    label: 'Find the scale degree',
+    label: 'Find the degree',
     description: 'Given a key and a note, find the scale degree.',
     promptDecks: ['key', 'note'],
     answerDeck: 'degree',
@@ -79,8 +79,8 @@ export const quizModes: Record<Mode, QuizMode> = {
   },
   [Mode.KEY_ONLY]: {
     id: Mode.KEY_ONLY,
-    label: 'Key ↔︎ Signature',
-    description: 'What is the key or Key signature?',
+    label: 'Keys & Signatures',
+    description: 'What is the Key or Key signature?',
     supportedFilters: {
       priority: false, // can filter by harmonic/scale/all
       difficulty: true,
