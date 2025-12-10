@@ -1,10 +1,10 @@
 import { SegmentedControl } from "@mantine/core";
-import { quizModes } from "../QuizData/modeConfigs";
-import { Mode } from "@/types/Mode";
+import { quizModes } from "../data/modeConfigs";
+import { FlashcardMode } from "../types/FlashcardMode";
 
 interface ModeSelectProps {
-    value: Mode;
-    onChange: (mode: Mode) => void;
+    value: FlashcardMode;
+    onChange: (mode: FlashcardMode) => void;
 };
 
 export function ModeSelect({value, onChange}: ModeSelectProps) {
@@ -15,7 +15,7 @@ export function ModeSelect({value, onChange}: ModeSelectProps) {
     return (
         <SegmentedControl
           value={value}
-          onChange={(val: string) => onChange(val as Mode)}
+          onChange={(val: string) => onChange(val as FlashcardMode)}
           data={availableModes}
           fullWidth
           size="md"

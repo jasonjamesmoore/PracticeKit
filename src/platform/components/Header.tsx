@@ -15,7 +15,7 @@ export function Header() {
           {/* Logo/Title */}
           <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <Title order={1} size="h3">
-              🎼 Theory Flashcards
+              🎼 PracticeKit
             </Title>
           </Link>
 
@@ -29,7 +29,7 @@ export function Header() {
                 fontWeight: isActive('/') ? 600 : 400,
               }}
             >
-              Quizzes
+              Tools
             </Link>
             <Link
               to="/settings"

@@ -1,8 +1,8 @@
 // Utility functions for random card selection
-import { Deck } from '@/types/Quiz';
-import { degreeCards, type DegreeCard } from '../QuizData/degrees';
-import { keyCards, type KeyCard } from '../QuizData/key';
-import { noteCards, type NoteCard } from '../QuizData/notes';
+import { Deck } from '@/tools/flashcards/types/Quiz';
+import { degreeCards, type DegreeCard } from '@/tools/flashcards/data/degrees';
+import { keyCards, type KeyCard } from '@/tools/flashcards/data/key';
+import { noteCards, type NoteCard } from '@/tools/flashcards/data/notes';
 
 // Random selection functions
 

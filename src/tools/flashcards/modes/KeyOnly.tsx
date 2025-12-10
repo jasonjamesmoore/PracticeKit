@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Button, Flex, Stack } from '@mantine/core';
-import { Quiz } from '@/components/Quiz';
-import { quizModes } from '@/QuizData/modeConfigs';
-import { Mode } from '@/types/Mode';
-import { QuizMode } from '@/types/Quiz';
+import { Quiz } from '../components/Quiz';
+import { quizModes } from '../data/modeConfigs';
+import { FlashcardMode } from '../types/FlashcardMode';
+import { QuizMode } from '../types/Quiz';
 
 export function KeyOnly() {
   const [variantIndex, setVariantIndex] = useState(0);
@@ -14,7 +14,7 @@ export function KeyOnly() {
   }, [variantIndex]);
   
   function updateVariant() {
-    const baseConfig = quizModes[Mode.KEY_ONLY];
+    const baseConfig = quizModes[FlashcardMode.KEY_ONLY];
     if (!baseConfig.variants) {
       return;
     }

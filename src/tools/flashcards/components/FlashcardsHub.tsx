@@ -1,19 +1,19 @@
 import { Grid, Card, Text, Button, Badge, Group, Stack, Container, Title } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { IconTarget, IconNotes, IconKeyboard, IconMusic } from '@tabler/icons-react';
-import { Mode } from '@/types/Mode';
-import { quizModes } from '@/QuizData/modeConfigs';
+import { FlashcardMode } from '../types/FlashcardMode';
+import { quizModes } from '../data/modeConfigs';
 
-const modeOrder = [Mode.DEGREE_FINDER, Mode.NOTE_FINDER, Mode.KEY_FINDER, Mode.KEY_ONLY];
+const modeOrder = [FlashcardMode.DEGREE_FINDER, FlashcardMode.NOTE_FINDER, FlashcardMode.KEY_FINDER, FlashcardMode.KEY_ONLY];
 
-const modeIcons: Record<Mode, React.ReactNode> = {
-  [Mode.DEGREE_FINDER]: <IconTarget size={32} />,
-  [Mode.NOTE_FINDER]: <IconNotes size={32} />,
-  [Mode.KEY_FINDER]: <IconKeyboard size={32} />,
-  [Mode.KEY_ONLY]: <IconMusic size={32} />,
+const modeIcons: Record<FlashcardMode, React.ReactNode> = {
+  [FlashcardMode.DEGREE_FINDER]: <IconTarget size={32} />,
+  [FlashcardMode.NOTE_FINDER]: <IconNotes size={32} />,
+  [FlashcardMode.KEY_FINDER]: <IconKeyboard size={32} />,
+  [FlashcardMode.KEY_ONLY]: <IconMusic size={32} />,
 };
 
-export function QuizzesHub() {
+export function FlashcardsHub() {
   const navigate = useNavigate();
 
   return (
@@ -74,7 +74,7 @@ export function QuizzesHub() {
                     {/* Quick Start Button */}
                     <Button
                       fullWidth
-                      onClick={() => navigate(`/quiz/${mode}`)}
+                      onClick={() => navigate(`/tools/flashcards/${mode}`)}
                       mt="auto"
                     >
                       Start Quiz

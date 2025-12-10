@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Container, SegmentedControl, Stack } from '@mantine/core';
-import { FlashCard } from './FlashCard';
-import { Deck, QuizMode } from '@/types/Quiz';
-import { getRandomCard } from '@/utils/cardSelection'; 
+import { Container, SegmentedControl, Stack, Button, Group } from '@mantine/core';
+import { IconArrowLeft } from '@tabler/icons-react';
+import { useNavigate } from 'react-router-dom';
+import { FlashCard } from '@/shared/components/FlashCard';
+import { Deck, QuizMode } from '../types/Quiz';
+import { getRandomCard } from '@/shared/utils/cardSelection'; 
 
 interface QuizProps {
   modeConfig: QuizMode;
 }
 
 export function Quiz({ modeConfig }: QuizProps) {
-
+  const navigate = useNavigate();
 
   const [prompts, setPrompts] = useState<Record<Deck, string | null>>({
     key: null,
@@ -103,6 +105,18 @@ function regeneratePrompts(respectLock: boolean = false) {
   return (
     <Container size="sm" py="xl">
       <Stack gap="md">
+      {/* Switch Mode Button */}
+      <Group justify="flex-start">
+        <Button
+          variant="subtle"
+          leftSection={<IconArrowLeft size={16} />}
+          onClick={() => navigate('/tools/flashcards')}
+          size="sm"
+        >
+          Switch Quiz Mode
+        </Button>
+      </Group>
+
       {/* Priority selector - only show if mode supports it */}
       {modeConfig.supportedFilters?.priority && (
         <SegmentedControl

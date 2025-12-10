@@ -4,15 +4,15 @@ import {
   getNotefromDegree,
   getScaleDegree,
   getSignatureFromKey,
-} from '../theory/noteUtils';
-import { Mode } from '../types/Mode';
+} from '@/shared/theory/noteUtils';
+import { FlashcardMode } from '../types/FlashcardMode';
 import { QuizMode } from '../types/Quiz';
 import { degreeCards } from './degrees';
 import { keyCards } from './key';
 
-export const quizModes: Record<Mode, QuizMode> = {
-  [Mode.DEGREE_FINDER]: {
-    id: Mode.DEGREE_FINDER,
+export const quizModes: Record<FlashcardMode, QuizMode> = {
+  [FlashcardMode.DEGREE_FINDER]: {
+    id: FlashcardMode.DEGREE_FINDER,
     label: 'Find the degree',
     description: 'Given a key and a note, find the scale degree.',
     promptDecks: ['key', 'note'],
@@ -40,8 +40,8 @@ export const quizModes: Record<Mode, QuizMode> = {
       locking: true, // can lock prompts
     },
   },
-  [Mode.NOTE_FINDER]: {
-    id: Mode.NOTE_FINDER,
+  [FlashcardMode.NOTE_FINDER]: {
+    id: FlashcardMode.NOTE_FINDER,
     label: 'Find the note',
     description: 'Given a key and a scale degree, find the note.',
     promptDecks: ['key', 'degree'],
@@ -53,8 +53,8 @@ export const quizModes: Record<Mode, QuizMode> = {
       locking: true, // can lock prompts
     },
   },
-  [Mode.KEY_FINDER]: {
-    id: Mode.KEY_FINDER,
+  [FlashcardMode.KEY_FINDER]: {
+    id: FlashcardMode.KEY_FINDER,
     label: 'Find the key',
     description: 'Given a note and a scale degree, find the key.',
     promptDecks: ['note', 'degree'],
@@ -77,8 +77,8 @@ export const quizModes: Record<Mode, QuizMode> = {
       locking: true, // can lock prompts
     },
   },
-  [Mode.KEY_ONLY]: {
-    id: Mode.KEY_ONLY,
+  [FlashcardMode.KEY_ONLY]: {
+    id: FlashcardMode.KEY_ONLY,
     label: 'Keys & Signatures',
     description: 'What is the Key or Key signature?',
     supportedFilters: {

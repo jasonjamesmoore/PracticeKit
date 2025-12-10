@@ -3,13 +3,14 @@ import { AppShell, Burger, Stack, NavLink, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconHome, IconSettings } from '@tabler/icons-react';
 import { Header } from './Header';
+import { Breadcrumbs } from './Breadcrumbs';
 
 export default function Layout() {
   const [opened, { toggle }] = useDisclosure();
   const location = useLocation();
 
   const navItems = [
-    { label: 'Quizzes', icon: IconHome, href: '/' },
+    { label: 'Tools', icon: IconHome, href: '/' },
     { label: 'Settings', icon: IconSettings, href: '/settings' },
   ];
 
@@ -53,6 +54,7 @@ export default function Layout() {
       </AppShell.Navbar>
 
       <AppShell.Main>
+        <Breadcrumbs />
         <Outlet />
       </AppShell.Main>
     </AppShell>
