@@ -28,7 +28,7 @@ export function FlashcardsOnboarding({ opened, onClose }: FlashcardsOnboardingPr
     <Modal
       opened={opened}
       onClose={onClose}
-      title={<Title order={3}>Welcome to Flashcards! 🎴</Title>}
+      title={<Title order={3}>Welcome to Flashcards!</Title>}
       size="lg"
       centered
     >
