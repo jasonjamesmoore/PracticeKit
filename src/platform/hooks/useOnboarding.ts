@@ -1,29 +1,30 @@
 import { useState, useEffect } from 'react';
 
-const ONBOARDING_KEY = 'practicekit:onboarding:welcome';
+const ONBOARDING_PREFIX = 'practicekit:onboarding:';
 
-export function useOnboarding() {
-  const [hasSeenWelcome, setHasSeenWelcome] = useState<boolean>(true); // Default to true to avoid flash
+export function useOnboarding(toolId?: string) {
+  const key = toolId ? `${ONBOARDING_PREFIX}${toolId}` : `${ONBOARDING_PREFIX}welcome`;
+  const [hasSeenOnboarding, setHasSeenOnboarding] = useState<boolean>(true); // Default to true to avoid flash
 
   useEffect(() => {
     // Check localStorage on mount
-    const seen = localStorage.getItem(ONBOARDING_KEY) === 'true';
-    setHasSeenWelcome(seen);
-  }, []);
+    const seen = localStorage.getItem(key) === 'true';
+    setHasSeenOnboarding(seen);
+  }, [key]);
 
-  const markWelcomeAsSeen = () => {
-    localStorage.setItem(ONBOARDING_KEY, 'true');
-    setHasSeenWelcome(true);
+  const markOnboardingAsSeen = () => {
+    localStorage.setItem(key, 'true');
+    setHasSeenOnboarding(true);
   };
 
   const resetOnboarding = () => {
-    localStorage.removeItem(ONBOARDING_KEY);
-    setHasSeenWelcome(false);
+    localStorage.removeItem(key);
+    setHasSeenOnboarding(false);
   };
 
   return {
-    hasSeenWelcome,
-    markWelcomeAsSeen,
+    hasSeenOnboarding,
+    markOnboardingAsSeen,
     resetOnboarding,
   };
 }

@@ -3,12 +3,17 @@ import { IconRefresh } from '@tabler/icons-react';
 import { useOnboarding } from '@/platform/hooks/useOnboarding';
 
 export function Settings() {
-  const { resetOnboarding } = useOnboarding();
+  const platformOnboarding = useOnboarding();
+  const flashcardsOnboarding = useOnboarding('flashcards');
 
-  const handleResetOnboarding = () => {
-    resetOnboarding();
-    // Could add a toast notification here if @mantine/notifications is installed
+  const handleResetPlatformOnboarding = () => {
+    platformOnboarding.resetOnboarding();
     alert('Welcome tour will show again on your next visit to the home page.');
+  };
+
+  const handleResetFlashcardsOnboarding = () => {
+    flashcardsOnboarding.resetOnboarding();
+    alert('Flashcards tour will show again on your next visit to the Flashcards tool.');
   };
 
   return (
@@ -27,18 +32,33 @@ export function Settings() {
               </Text>
             </div>
 
-            <Group>
-              <Button
-                variant="light"
-                leftSection={<IconRefresh size={16} />}
-                onClick={handleResetOnboarding}
-              >
-                Reset Welcome Tour
-              </Button>
-              <Text size="sm" c="dimmed">
-                Show the welcome modal again on your next visit
-              </Text>
-            </Group>
+            <Stack gap="md">
+              <Group>
+                <Button
+                  variant="light"
+                  leftSection={<IconRefresh size={16} />}
+                  onClick={handleResetPlatformOnboarding}
+                >
+                  Reset Platform Tour
+                </Button>
+                <Text size="sm" c="dimmed">
+                  Show the welcome modal again
+                </Text>
+              </Group>
+
+              <Group>
+                <Button
+                  variant="light"
+                  leftSection={<IconRefresh size={16} />}
+                  onClick={handleResetFlashcardsOnboarding}
+                >
+                  Reset Flashcards Tour
+                </Button>
+                <Text size="sm" c="dimmed">
+                  Show the flashcards tutorial again
+                </Text>
+              </Group>
+            </Stack>
           </Stack>
         </Paper>
       </Stack>

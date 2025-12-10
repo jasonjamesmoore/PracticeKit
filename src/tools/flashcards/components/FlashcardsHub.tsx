@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { IconTarget, IconNotes, IconKeyboard, IconMusic } from '@tabler/icons-react';
 import { FlashcardMode } from '../types/FlashcardMode';
 import { quizModes } from '../data/modeConfigs';
+import { FlashcardsOnboarding } from './FlashcardsOnboarding';
+import { useOnboarding } from '@/platform/hooks/useOnboarding';
 
 const modeOrder = [FlashcardMode.DEGREE_FINDER, FlashcardMode.NOTE_FINDER, FlashcardMode.KEY_FINDER, FlashcardMode.KEY_ONLY];
 
@@ -15,9 +17,12 @@ const modeIcons: Record<FlashcardMode, React.ReactNode> = {
 
 export function FlashcardsHub() {
   const navigate = useNavigate();
+  const { hasSeenOnboarding, markOnboardingAsSeen } = useOnboarding('flashcards');
 
   return (
-    <Container size="lg" py="xl">
+    <>
+      <FlashcardsOnboarding opened={!hasSeenOnboarding} onClose={markOnboardingAsSeen} />
+      <Container size="lg" py="xl">
       <Stack gap="lg">
         <div>
           <Title order={2} mb="xs">
@@ -87,5 +92,6 @@ export function FlashcardsHub() {
         </Grid>
       </Stack>
     </Container>
+    </>
   );
 }

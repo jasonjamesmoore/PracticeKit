@@ -3,11 +3,11 @@ import { WelcomeModal } from '@/platform/components/WelcomeModal';
 import { useOnboarding } from '@/platform/hooks/useOnboarding';
 
 export function Home() {
-  const { hasSeenWelcome, markWelcomeAsSeen } = useOnboarding();
+  const { hasSeenOnboarding, markOnboardingAsSeen } = useOnboarding();
 
   return (
     <>
-      <WelcomeModal opened={!hasSeenWelcome} onClose={markWelcomeAsSeen} />
+      <WelcomeModal opened={!hasSeenOnboarding} onClose={markOnboardingAsSeen} />
       <ToolsHub />
     </>
   );
