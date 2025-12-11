@@ -1,6 +1,6 @@
 import { Modal, Stepper, Button, Text, Stack, Title, List, ThemeIcon, Group, Breadcrumbs, Anchor } from '@mantine/core';
 import { useState } from 'react';
-import { IconTools, IconRoute, IconSparkles, IconArrowLeft } from '@tabler/icons-react';
+import { IconRoute, IconSparkles, IconArrowLeft, IconApps } from '@tabler/icons-react';
 
 interface WelcomeModalProps {
   opened: boolean;
@@ -51,8 +51,8 @@ export function WelcomeModal({ opened, onClose }: WelcomeModalProps) {
           <Stepper.Step label="Tools Hub" description="Your dashboard">
             <Stack gap="md" mt="xl">
               <Group gap="xs">
-                <ThemeIcon size="lg" variant="light" color="blue">
-                  <IconTools size={20} />
+                <ThemeIcon size="lg" variant="light" color="brand">
+                  <IconApps size={20} />
                 </ThemeIcon>
                 <Text size="lg" fw={500}>
                   Explore Learning Tools
@@ -78,7 +78,7 @@ export function WelcomeModal({ opened, onClose }: WelcomeModalProps) {
           <Stepper.Step label="Navigation" description="Finding your way">
             <Stack gap="md" mt="xl">
               <Group gap="xs">
-                <ThemeIcon size="lg" variant="light" color="violet">
+                <ThemeIcon size="lg" variant="light" color="brand">
                   <IconRoute size={20} />
                 </ThemeIcon>
                 <Text size="lg" fw={500}>
@@ -119,7 +119,7 @@ export function WelcomeModal({ opened, onClose }: WelcomeModalProps) {
           <Stepper.Step label="Get Started" description="Begin your journey">
             <Stack gap="md" mt="xl">
               <Group gap="xs">
-                <ThemeIcon size="lg" variant="light" color="green">
+                <ThemeIcon size="lg" variant="light" color="brand">
                   <IconSparkles size={20} />
                 </ThemeIcon>
                 <Text size="lg" fw={500}>

@@ -37,7 +37,7 @@ export function FlashcardsOnboarding({ opened, onClose }: FlashcardsOnboardingPr
           <Stepper.Step label="Quiz Modes" description="Choose your practice">
             <Stack gap="md" mt="xl">
               <Group gap="xs">
-                <ThemeIcon size="lg" variant="light" color="blue">
+                <ThemeIcon size="lg" variant="light" color="keyDeck">
                   <IconCards size={20} />
                 </ThemeIcon>
                 <Text size="lg" fw={500}>
@@ -71,7 +71,7 @@ export function FlashcardsOnboarding({ opened, onClose }: FlashcardsOnboardingPr
           <Stepper.Step label="Priority Filters" description="Focus your practice">
             <Stack gap="md" mt="xl">
               <Group gap="xs">
-                <ThemeIcon size="lg" variant="light" color="violet">
+                <ThemeIcon size="lg" variant="light" color="noteDeck">
                   <IconFilter size={20} />
                 </ThemeIcon>
                 <Text size="lg" fw={500}>
@@ -109,7 +109,7 @@ export function FlashcardsOnboarding({ opened, onClose }: FlashcardsOnboardingPr
           <Stepper.Step label="Lock Feature" description="Practice variations">
             <Stack gap="md" mt="xl">
               <Group gap="xs">
-                <ThemeIcon size="lg" variant="light" color="orange">
+                <ThemeIcon size="lg" variant="light" color="degreeDeck">
                   <IconLock size={20} />
                 </ThemeIcon>
                 <Text size="lg" fw={500}>
@@ -139,7 +139,7 @@ export function FlashcardsOnboarding({ opened, onClose }: FlashcardsOnboardingPr
           <Stepper.Step label="Variants" description="Switch directions">
             <Stack gap="md" mt="xl">
               <Group gap="xs">
-                <ThemeIcon size="lg" variant="light" color="green">
+                <ThemeIcon size="lg" variant="light" color="signatureDeck">
                   <IconArrowsLeftRight size={20} />
                 </ThemeIcon>
                 <Text size="lg" fw={500}>

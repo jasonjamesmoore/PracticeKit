@@ -1,4 +1,4 @@
-import { Card, Text, Group, Button, Stack, ActionIcon, Box } from '@mantine/core';
+import { Card, Text, Group, Button, Stack, ActionIcon, Box, useComputedColorScheme } from '@mantine/core';
 import { IconLock, IconLockOpen } from '@tabler/icons-react';
 
 type DeckType = 'key' | 'note' | 'degree' | 'signature';
@@ -27,10 +27,10 @@ export interface FlashCardProps {
 
 // Color scheme by deck type
 const DECK_COLORS: Record<DeckType, string> = {
-  key: 'blue',
-  note: 'green',
-  degree: 'violet',
-  signature: 'cyan',
+  key: 'keyDeck',
+  note: 'noteDeck',
+  degree: 'degreeDeck',
+  signature: 'signatureDeck',
 };
 
 // Deck labels
@@ -49,8 +49,11 @@ export function FlashCard({
   onNext,
   title 
 }: FlashCardProps) {
+  const computedColorScheme = useComputedColorScheme('light');
+  const isDark = computedColorScheme === 'dark';
+  
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
+    <Card shadow="sm" padding="lg" radius="md" withBorder bg={isDark ? 'dark.4' : undefined}>
       <Stack gap="md">
         {title && (
           <Text size="lg" fw={600} ta="center">
@@ -96,7 +99,7 @@ export function FlashCard({
                       <Text size="sm" c="dimmed" fw={500}>
                         {prompt.label}
                       </Text>
-                      <Text size="xl" fw={700}>
+                      <Text size="xl" fw={700} c={isDark ? 'dark.9' : 'dark.9'}>
                         {prompt.value}
                       </Text>
                     </Stack>
@@ -113,21 +116,21 @@ export function FlashCard({
             {DECK_LABELS[answer.deckType]}
           </Text>
           <Card 
-            bg={`var(--mantine-color-${DECK_COLORS[answer.deckType]}-1)`}
+            bg={`var(--mantine-color-${DECK_COLORS[answer.deckType]}-2)`}
             padding="md" 
             radius="sm"
             style={{ 
-              border: `2px solid var(--mantine-color-${DECK_COLORS[answer.deckType]}-3)`,
+              border: `2px solid var(--mantine-color-${DECK_COLORS[answer.deckType]}-4)`,
               width: '140px',
               minHeight: '100px',
-              opacity: isRevealed ? 1 : 0.5,
+              opacity: isRevealed ? 1 : 0.6,
             }}
           >
             <Stack gap="xs" align="center" justify="center" h="100%">
               <Text size="sm" c="dimmed" fw={500}>
                 Answer
               </Text>
-              <Text size="xl" fw={700}>
+              <Text size="xl" fw={700} c={isDark ? 'dark.9' : 'dark.9'}>
                 {isRevealed ? answer.value : "?"}
               </Text>
             </Stack>

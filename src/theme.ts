@@ -1,5 +1,78 @@
 import { createTheme } from '@mantine/core';
 
 export const theme = createTheme({
-  /** Put your mantine theme override here */
+  primaryColor: 'brand',
+  primaryShade: { light: 6, dark: 8 },
+  defaultRadius: 'md',
+  
+  colors: {
+    brand: [
+      '#ebfaf3',
+      '#dfeee7',
+      '#c2d9ce',
+      '#a1c3b4',
+      '#86b19d',
+      '#74a68f',
+      '#69a087',
+      '#5b9279',
+      '#4a7d66',
+      '#3a6c56',
+    ],
+    keyDeck: [
+      '#eafbee',
+      '#dcf1e0',
+      '#bae0c2',
+      '#8fcb9b',
+      '#77bf85',
+      '#63b673',
+      '#57b169',
+      '#479b58',
+      '#3c8a4c',
+      '#2d783e',
+    ],
+    noteDeck: [
+      '#eff8ec',
+      '#e4ebe0',
+      '#cad4c5',
+      '#adbca7',
+      '#95a78d',
+      '#869a7d',
+      '#7d9473',
+      '#6b8061',
+      '#5d7354',
+      '#4e6345',
+    ],
+    degreeDeck: [
+      '#fff0e5',
+      '#fde0d2',
+      '#f3c0a8',
+      '#ea9e7a',
+      '#e58f65',
+      '#de6f39',
+      '#dc662c',
+      '#c3551e',
+      '#af4a18',
+      '#993e0f',
+    ],
+    signatureDeck: [
+      '#ecf4ff',
+      '#dbe5f4',
+      '#c9d6ea',
+      '#91aad2',
+      '#7091c4',
+      '#5b81bc',
+      '#4f79b9',
+      '#4067a3',
+      '#355b93',
+      '#274f84',
+    ],
+  },
+  
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+  fontFamilyMonospace: 'Monaco, Courier, monospace',
+  
+  headings: {
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    fontWeight: '700',
+  },
 });

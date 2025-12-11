@@ -7,6 +7,11 @@
       name="viewport"
       content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
     />
+    <script>
+      // Prevent flash of unstyled content by setting color scheme before render
+      const colorScheme = localStorage.getItem('mantine-color-scheme-value') || 'auto';
+      document.documentElement.setAttribute('data-mantine-color-scheme', colorScheme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : colorScheme);
+    </script>
     <title>PracticeKit</title>
   </head>
   <body>

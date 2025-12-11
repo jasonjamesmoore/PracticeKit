@@ -1,5 +1,6 @@
 import { Group, Title, Container } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import { ColorSchemeToggle } from './ColorSchemeToggle';
 import classes from './Header.module.css';
 
 export function Header() {
@@ -14,7 +15,8 @@ export function Header() {
             </Title>
           </Link>
 
-          {/* Reserved for future user profile/account features */}
+          {/* Color scheme toggle and future user profile/account features */}
+          <ColorSchemeToggle />
         </Group>
       </Container>
     </header>
