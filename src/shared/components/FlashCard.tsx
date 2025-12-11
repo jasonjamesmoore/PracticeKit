@@ -29,7 +29,7 @@ export interface FlashCardProps {
 const DECK_COLORS: Record<DeckType, string> = {
   key: 'blue',
   note: 'green',
-  degree: 'purple',
+  degree: 'violet',
   signature: 'cyan',
 };
 
@@ -49,9 +49,6 @@ export function FlashCard({
   onNext,
   title 
 }: FlashCardProps) {
-  const getCardBg = (deckType: DeckType) => `${DECK_COLORS[deckType]}.1`;
-  const getCardBorder = (deckType: DeckType) => `2px solid var(--mantine-color-${DECK_COLORS[deckType]}-3)`;
-
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Stack gap="md">
@@ -63,19 +60,19 @@ export function FlashCard({
         
         {/* Prompt Section */}
         <Stack gap="xs">
-          <Group justify="center" gap="lg">
+          <Group justify="center" gap="lg" wrap="wrap">
             {prompts.map((prompt, index) => (
               <Box key={index} style={{ position: 'relative' }}>
                 <Text size="xs" c="dimmed" fw={500} mb="xs" ta="center">
                   {DECK_LABELS[prompt.deckType]}
                 </Text>
                 <Card 
-                  bg={getCardBg(prompt.deckType)} 
+                  bg={`var(--mantine-color-${DECK_COLORS[prompt.deckType]}-1)`}
                   padding="md" 
                   radius="sm"
                   style={{ 
-                    border: getCardBorder(prompt.deckType),
-                    width: '120px',
+                    border: `2px solid var(--mantine-color-${DECK_COLORS[prompt.deckType]}-3)`,
+                    width: '140px',
                     minHeight: '100px',
                   }}
                 >
@@ -111,21 +108,22 @@ export function FlashCard({
         </Stack>
 
         {/* Answer Section */}
-        <Stack gap="xs">
+        <Stack gap="xs" align="center">
           <Text size="xs" c="dimmed" fw={500} ta="center">
             {DECK_LABELS[answer.deckType]}
           </Text>
           <Card 
-            bg={getCardBg(answer.deckType)} 
+            bg={`var(--mantine-color-${DECK_COLORS[answer.deckType]}-1)`}
             padding="md" 
             radius="sm"
             style={{ 
-              border: getCardBorder(answer.deckType),
-              minHeight: '80px',
+              border: `2px solid var(--mantine-color-${DECK_COLORS[answer.deckType]}-3)`,
+              width: '140px',
+              minHeight: '100px',
               opacity: isRevealed ? 1 : 0.5,
             }}
           >
-            <Stack gap="xs" align="center" justify="center">
+            <Stack gap="xs" align="center" justify="center" h="100%">
               <Text size="sm" c="dimmed" fw={500}>
                 Answer
               </Text>
