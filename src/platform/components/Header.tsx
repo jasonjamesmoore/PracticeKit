@@ -7,7 +7,7 @@ export function Header() {
   return (
     <header className={classes.header}>
       <Container size="lg" h="100%">
-        <Group h="100%" justify="space-between" align="center">
+        <Group h="100%" justify="space-between" align="center" wrap="nowrap">
           {/* Logo/Title */}
           <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <Title order={1} size="h3">

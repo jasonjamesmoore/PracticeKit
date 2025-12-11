@@ -12,8 +12,8 @@ export function ColorSchemeToggle() {
   return (
     <ActionIcon
       onClick={toggleColorScheme}
-      variant="subtle"
-      size="lg"
+      variant="outline"
+      size="md"
       aria-label="Toggle color scheme"
       title={`Switch to ${computedColorScheme === 'dark' ? 'light' : 'dark'} mode`}
     >
